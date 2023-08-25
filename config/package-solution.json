@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "carosuel-client-side-solution",
+    "id": "a57e40e1-4f1f-4941-995a-9cf1798bb357",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "carosuel description"
+      },
+      "longDescription": {
+        "default": "carosuel description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "carosuel Feature",
+        "description": "The feature that activates elements of the carosuel solution.",
+        "id": "70898ba1-7f0e-4409-bd27-2bd4463db714",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/carosuel.sppkg"
+  }
+}

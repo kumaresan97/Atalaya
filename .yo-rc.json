@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": false,
+    "version": "1.14.0",
+    "libraryName": "carosuel",
+    "libraryId": "a57e40e1-4f1f-4941-995a-9cf1798bb357",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "carosuel",
+    "solutionShortDescription": "carosuel description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

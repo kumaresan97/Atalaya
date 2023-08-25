@@ -1,0 +1,31 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+
+  max-width: 100% !important;
+}
+
+.report-style-class {
+  height: 100vh;
+}
+.carousel-indicators [data-coreui-target] {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  background-color: #d9d9d9 !important;
+}
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: none;
+}
+
+/* [data-automation-id="CanvasZone"] {
+  margin: 0px !important;
+}
+[data-automation-id="CanvasZone"] div:nth-child(1) {
+  padding: 0px !important;
+} */

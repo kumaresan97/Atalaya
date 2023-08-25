@@ -1,0 +1,26 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+
+  max-width: 100% !important;
+}
+
+.report-style-class {
+  height: 100vh;
+}
+.CanvasZone {
+  margin: 0 !important;
+}
+.CanvasZone > div {
+  padding: 0 !important;
+}
+.footer_wrap a {
+  text-decoration: none;
+}
+.footer_wrap a:hover {
+  text-decoration: underline;
+}

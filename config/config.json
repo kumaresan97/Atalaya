@@ -1,0 +1,109 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "carosuel-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/carosuel/CarosuelWebPart.js",
+          "manifest": "./src/webparts/carosuel/CarosuelWebPart.manifest.json"
+        }
+      ]
+    },
+    "quick-links-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/quickLinks/QuickLinksWebPart.js",
+          "manifest": "./src/webparts/quickLinks/QuickLinksWebPart.manifest.json"
+        }
+      ]
+    },
+    "footer-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/footer/FooterWebPart.js",
+          "manifest": "./src/webparts/footer/FooterWebPart.manifest.json"
+        }
+      ]
+    },
+    "news-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/news/NewsWebPart.js",
+          "manifest": "./src/webparts/news/NewsWebPart.manifest.json"
+        }
+      ]
+    },
+    "announce-ments-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/announceMents/AnnounceMentsWebPart.js",
+          "manifest": "./src/webparts/announceMents/AnnounceMentsWebPart.manifest.json"
+        }
+      ]
+    },
+    "image-carosuel-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/imageCarosuel/ImageCarosuelWebPart.js",
+          "manifest": "./src/webparts/imageCarosuel/ImageCarosuelWebPart.manifest.json"
+        }
+      ]
+    },
+    "header-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/header/HeaderWebPart.js",
+          "manifest": "./src/webparts/header/HeaderWebPart.manifest.json"
+        }
+      ]
+    },
+    "announcementview-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/announcementview/AnnouncementviewWebPart.js",
+          "manifest": "./src/webparts/announcementview/AnnouncementviewWebPart.manifest.json"
+        }
+      ]
+    },
+    "newsview-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/newsview/NewsviewWebPart.js",
+          "manifest": "./src/webparts/newsview/NewsviewWebPart.manifest.json"
+        }
+      ]
+    },
+    "map-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/map/MapWebPart.js",
+          "manifest": "./src/webparts/map/MapWebPart.manifest.json"
+        }
+      ]
+    },
+    "calendar-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/calendar/CalendarWebPart.js",
+          "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "CarosuelWebPartStrings": "lib/webparts/carosuel/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js",
+    "QuickLinksWebPartStrings": "lib/webparts/quickLinks/loc/{locale}.js",
+    "FooterWebPartStrings": "lib/webparts/footer/loc/{locale}.js",
+    "NewsWebPartStrings": "lib/webparts/news/loc/{locale}.js",
+    "AnnounceMentsWebPartStrings": "lib/webparts/announceMents/loc/{locale}.js",
+    "ImageCarosuelWebPartStrings": "lib/webparts/imageCarosuel/loc/{locale}.js",
+    "HeaderWebPartStrings": "lib/webparts/header/loc/{locale}.js",
+    "AnnouncementviewWebPartStrings": "lib/webparts/announcementview/loc/{locale}.js",
+    "NewsviewWebPartStrings": "lib/webparts/newsview/loc/{locale}.js",
+    "MapWebPartStrings": "lib/webparts/map/loc/{locale}.js",
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
+  }
+}

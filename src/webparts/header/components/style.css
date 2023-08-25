@@ -1,0 +1,71 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+
+  max-width: 100% !important;
+}
+
+.report-style-class {
+  height: 100vh;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  list-style-type: none;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown-content-active {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  list-style-type: none;
+  width: 100px;
+}
+.dropdown-content li {
+  margin: 5px 0;
+}
+.dropdown-content-active li {
+  margin: 5px 0;
+}
+a {
+  text-decoration: none;
+  color: #a98640;
+  font-size: 15px;
+  font-weight: 400;
+  transition: color 0.3s;
+  padding-bottom: 8px;
+  display: inline-block;
+  /* margin-bottom: 10px; */
+  /* padding: 10px 20px; */
+}
+.active {
+  border-bottom: 2px solid #a98640;
+}

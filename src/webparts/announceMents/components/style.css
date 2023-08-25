@@ -1,0 +1,19 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+
+  max-width: 100% !important;
+}
+
+.report-style-class {
+  height: 100vh;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

@@ -1,0 +1,49 @@
+#workbenchPageContent {
+  max-width: 100%;
+}
+
+.content_3f3fd3c2,
+.CanvasZone {
+  padding: 0 !important;
+
+  max-width: 100% !important;
+}
+
+.report-style-class {
+  height: 100vh;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  padding: 1rem;
+  width: 2%;
+}
+.carousel-indicators [data-coreui-target] {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50%;
+  background-color: #d9d9d9 !important;
+  /* position: absolute;
+  bottom: -80px; */
+}
+.carousel-indicators .active {
+  background-color: #007cba !important;
+}
+.carousel-control-next,
+.carousel-control-prev {
+  width: 4% !important;
+}
+.slide {
+  /* margin: 50px 0px !important */
+  height: 400px;
+}
+.carousel-inner {
+  width: 90%;
+  margin: auto;
+}

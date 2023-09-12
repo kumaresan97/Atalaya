@@ -1,34 +1,57 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
-
-.news {
+.paratext {
+  display: -webkit-box;
   overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  margin: 0;
+}
+.newsSection {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #dedede;
+  .newsImage {
+    width: 100px;
+    height: 88px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
-}
+  .newsContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 100px);
+  }
+  .newsTag {
+    color: #089982;
+    margin: 3px 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
 
-.welcome {
-  text-align: center;
-}
-
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
-}
-
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
-
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    img {
+      width: 14px;
+      height: 14px;
+      padding-right: 6px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  .newsFooter {
+    display: block;
+  }
+  .newsCreator {
+    display: flex;
+    gap: 10x;
+    img {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
     }
   }
 }

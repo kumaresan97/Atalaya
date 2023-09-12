@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import { IImgcarosuel } from "../../../Global/AtalayaInterface";
 import SPServices from "../../../Global/SPServices";
+import styles from "./ImageCarosuel.module.scss";
 const Imgcarosuel = (props) => {
   const [datas, setDatas] = useState<IImgcarosuel[]>([]);
 
@@ -21,14 +22,15 @@ const Imgcarosuel = (props) => {
     //   .getByTitle("ImageCarosuel")
     //   .items.get()
     SPServices.SPReadItems({
-      Listname: "ImageCarosuel",
+      Listname: "Intranet 4 image carousel",
     })
       .then((res) => {
         let arrDatas: IImgcarosuel[] = [];
         res.forEach((val: any) => {
           arrDatas.push({
             Title: val.Title,
-            ImageUrl: val.ImageUrl,
+            ImageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            Url: val.Links ? val.Links : "",
           });
         });
         const chunkedDatas = [];
@@ -37,7 +39,7 @@ const Imgcarosuel = (props) => {
         }
         console.log(arrDatas, "arr");
         console.log(chunkedDatas, "chunk");
-        // console.log(res);
+        console.log(res);
         // console.log(arrDatas, "arr");
         setDatas([...chunkedDatas]);
         console.log(datas, "datas");
@@ -47,12 +49,17 @@ const Imgcarosuel = (props) => {
       });
   };
   console.log(datas);
+  const handleItemClick = (url) => {
+    if (url) {
+      window.open(url, "_blank");
+    }
+  };
 
   useEffect(() => {
     getDatas();
   }, []);
   return (
-    <div>
+    <div className="imgCarosuel">
       {/* <CCarousel controls indicators data-interval="500">
         {datas.map((arr) => {
           return (
@@ -104,7 +111,7 @@ const Imgcarosuel = (props) => {
         })}
       </CCarousel> */}
 
-      <CCarousel controls indicators data-interval="500">
+      <CCarousel pause={true} controls indicators data-interval="500000000">
         {datas.length > 0 &&
           datas.map((chunk: any, index) => (
             <CCarouselItem key={index}>
@@ -118,21 +125,10 @@ const Imgcarosuel = (props) => {
                 }}
               >
                 {chunk.map((data, i) => (
-                  <div
-                    key={i}
-                    // className="carousel-item"
-                    style={{
-                      width: "25%",
-                      padding: "10px",
-                    }}
-                  >
+                  <div className={styles.caroContainer} key={i}>
                     <div
-                      //   className="image-container"
-                      style={{
-                        background: "#000",
-                        width: "100%",
-                        height: "90%",
-                      }}
+                      className={styles.caroContainerSection}
+                      onClick={() => handleItemClick(data.Url)}
                     >
                       <CImage
                         src={data.ImageUrl}
@@ -144,14 +140,8 @@ const Imgcarosuel = (props) => {
                         }}
                       />
                       <p
-                        style={{
-                          textAlign: "center",
-                          fontSize: "15px",
-                          fontWeight: "bold",
-                          padding: "10px 5px",
-                          background: "red",
-                          margin: 0,
-                        }}
+                        className={styles.caroContainerTitle}
+                        title={data.Title}
                       >
                         {data.Title}
                       </p>

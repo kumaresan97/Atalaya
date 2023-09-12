@@ -89,6 +89,14 @@
           "manifest": "./src/webparts/calendar/CalendarWebPart.manifest.json"
         }
       ]
+    },
+    "full-calendarview-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/fullCalendarview/FullCalendarviewWebPart.js",
+          "manifest": "./src/webparts/fullCalendarview/FullCalendarviewWebPart.manifest.json"
+        }
+      ]
     }
   },
   "externals": {},
@@ -104,6 +112,7 @@
     "AnnouncementviewWebPartStrings": "lib/webparts/announcementview/loc/{locale}.js",
     "NewsviewWebPartStrings": "lib/webparts/newsview/loc/{locale}.js",
     "MapWebPartStrings": "lib/webparts/map/loc/{locale}.js",
-    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js"
+    "CalendarWebPartStrings": "lib/webparts/calendar/loc/{locale}.js",
+    "FullCalendarviewWebPartStrings": "lib/webparts/fullCalendarview/loc/{locale}.js"
   }
 }

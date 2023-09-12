@@ -1,34 +1,24 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
-
-.map {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
-  }
-}
-
-.welcome {
-  text-align: center;
-}
-
-.welcomeImage {
+.mapcontainer {
+  display: flex;
+  gap: 30px;
   width: 100%;
-  max-width: 420px;
-}
-
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
-
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+  height: 350px;
+  .mapbox {
+    width: 50%;
+    .iframecontainer {
+      width: 100%;
+      // height: 100%;
+      iframe {
+        height: 300px !important;
+        width: 100% !important;
+      }
+    }
+    .iframtitle {
+      padding: 5px 20px;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
   }
 }

@@ -8,15 +8,15 @@ import {
 import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
-import * as strings from "MapWebPartStrings";
-import Map from "./components/Map";
-import { IMapProps } from "./components/IMapProps";
+import * as strings from "FullCalendarviewWebPartStrings";
+import FullCalendarview from "./components/FullCalendarview";
+import { IFullCalendarviewProps } from "./components/IFullCalendarviewProps";
 
-export interface IMapWebPartProps {
+export interface IFullCalendarviewWebPartProps {
   description: string;
 }
 
-export default class MapWebPart extends BaseClientSideWebPart<IMapWebPartProps> {
+export default class FullCalendarviewWebPart extends BaseClientSideWebPart<IFullCalendarviewWebPartProps> {
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = "";
 
@@ -27,14 +27,15 @@ export default class MapWebPart extends BaseClientSideWebPart<IMapWebPartProps> 
   }
 
   public render(): void {
-    const element: React.ReactElement<IMapProps> = React.createElement(Map, {
-      description: this.properties.description,
-      isDarkTheme: this._isDarkTheme,
-      environmentMessage: this._environmentMessage,
-      hasTeamsContext: !!this.context.sdks.microsoftTeams,
-      userDisplayName: this.context.pageContext.user.displayName,
-      context: this.context,
-    });
+    const element: React.ReactElement<IFullCalendarviewProps> =
+      React.createElement(FullCalendarview, {
+        description: this.properties.description,
+        isDarkTheme: this._isDarkTheme,
+        environmentMessage: this._environmentMessage,
+        hasTeamsContext: !!this.context.sdks.microsoftTeams,
+        userDisplayName: this.context.pageContext.user.displayName,
+        context: this.context,
+      });
 
     ReactDom.render(element, this.domElement);
   }

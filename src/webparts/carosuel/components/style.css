@@ -12,17 +12,19 @@
 .report-style-class {
   height: 100vh;
 }
-.carousel-indicators [data-coreui-target] {
+.headcarosuel .carousel-indicators [data-coreui-target] {
   height: 10px !important;
   width: 10px !important;
   border-radius: 50%;
   background-color: #d9d9d9 !important;
 }
-.carousel-control-next-icon,
-.carousel-control-prev-icon {
-  display: none;
+.headcarosuel .carousel-control-next-icon,
+.headcarosuel .carousel-control-prev-icon {
+  display: none !important;
 }
-
+.headcarosuel .carousel-indicators .active {
+  background-color: #a98644 !important;
+}
 /* [data-automation-id="CanvasZone"] {
   margin: 0px !important;
 }

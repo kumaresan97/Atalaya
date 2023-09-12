@@ -1,6 +1,6 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 
-export interface IMapProps {
+export interface IFullCalendarviewProps {
   description: string;
   isDarkTheme: boolean;
   environmentMessage: string;

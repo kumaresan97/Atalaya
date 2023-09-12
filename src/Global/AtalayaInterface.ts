@@ -2,6 +2,7 @@ export interface IAnnouncementViews {
   EMail: string;
   JobTitle: string;
   Title: string;
+  ID: number;
 }
 export interface INews {
   Id: number;
@@ -16,12 +17,14 @@ export interface INews {
 export interface IImgcarosuel {
   Title: string;
   ImageUrl: string;
+  Url: string;
 }
 export interface ICarosuel {
   imageUrl: string;
   Title: String;
   Description: string;
   Url: string;
+  Active: boolean;
 }
 export interface IQuickLink {
   imageUrl: string;

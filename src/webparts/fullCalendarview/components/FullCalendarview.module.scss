@@ -1,0 +1,78 @@
+.mainContainer {
+  padding: 20px;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // padding: 10px 30px;
+  .labelHead {
+    display: flex;
+    // gap: 20px;
+
+    .activeBtn {
+      height: 40px;
+      width: 160px;
+      background-color: #a98644;
+      // border-radius: 3px;
+      color: #fff;
+      border: none;
+      font-size: 15px;
+      font-weight: 400;
+      // box-shadow: 0px 0px 4px #00573d;
+    }
+    .inActive {
+      color: #a98644;
+      font-weight: 600;
+      background-color: unset;
+      border: none;
+      width: 160px;
+      height: 40px;
+      font-size: 15px;
+      font-weight: 400;
+    }
+  }
+}
+
+.calender_container_wraper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 40px 0px;
+  // justify-content: center;
+  .calender_wraper {
+    width: 20%;
+    padding: 10px 10px 10px 0px;
+
+    .calender_wraper_inner {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      border-radius: 5px;
+      display: flex;
+      // flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      align-items: center;
+
+      .date_wrap {
+        width: 25%;
+        // background-color: #a98644;
+        border: none;
+        border-radius: 4px;
+        color: #a98644;
+        .title {
+          font-size: 15px;
+          font-weight: 500;
+          margin: 0;
+        }
+      }
+      .title_wrap {
+        width: 75%;
+        border-left: 1px solid #dedede;
+        padding-left: 12px;
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

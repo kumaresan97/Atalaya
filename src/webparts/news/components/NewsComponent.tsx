@@ -5,35 +5,63 @@ import { Icon } from "@fluentui/react/lib/Icon";
 import { sp } from "@pnp/sp/presets/all";
 import * as moment from "moment";
 import "./style.css";
-import { Label } from "office-ui-fabric-react";
+import { Label, Spinner, SpinnerSize } from "@fluentui/react";
+import styles from "./News.module.scss";
 import { FontWeights } from "@fluentui/react";
+import SPServices from "../../../Global/SPServices";
+import { INews } from "../../../Global/AtalayaInterface";
+const Tagicon = require("../../../Global/Images/TagIcon.png");
 
 const NewsComponent = (props) => {
   const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getData = () => {
-    sp.web.lists
-      .getByTitle("News")
-      .items.select("*", "Author/Title", "Author/EMail")
-      .expand("Author")
-      .top(4)
+    // sp.web.lists
+    //   .getByTitle("News")
+    //   .items.select("*", "Author/Title", "Author/EMail")
+    //   .expand("Author")
+    //   .top(100)
+    SPServices.SPReadItems({
+      Listname: "Intranet Latest News",
+      Select: "*, Author/Title,Author/EMail",
+      Topcount: 4,
+      Expand: "Author",
+      Orderby: "ID",
+      Orderbydecorasc: false,
+    })
 
-      .get()
-      .then((res) => {
-        let arrDatas = [];
+      .then((res: any) => {
+        let arrDatas: INews[] = [];
         res.forEach((val) => {
           arrDatas.push({
             Id: val.Id,
 
             Description: val.Description,
-            imageUrl: val.Image,
+            TagName: val.TagName,
+            imageUrl: JSON.parse(val.Image).serverRelativeUrl,
             CreatedEmail: val.Author.EMail,
             DisplayName: val.Author.Title,
-            Created: moment(val.Created).format("MMMM YYYY"),
+            Created: val.Created,
           });
         });
         console.log(res);
         console.log(arrDatas, "arr");
+
+        // let filterbyDate = arrDatas.filter((val) => {
+        //   return (
+        //     moment(val.Created).format("YYYYMMDD") ==
+        //     moment().format("YYYYMMDD")
+        //   );
+        //   console.log("Created Date:", val.Created);
+        //   console.log(
+        //     "Formatted Created Date:",
+        //     moment(val.Created).format("YYYYMMDD")
+        //   );
+        //   console.log("Current Date:", moment().format("YYYYMMDD"));
+        // });
+        // console.log(filterbyDate, "filter");
+
         setNews([...arrDatas]);
       })
       .catch((err) => {
@@ -41,8 +69,7 @@ const NewsComponent = (props) => {
       });
   };
   const NavigateSitePage = () => {
-    const nextPageUrl =
-      "https://chandrudemo.sharepoint.com/sites/Atalya/SitePages/News.aspx";
+    const nextPageUrl = `${props.context.pageContext.web.absoluteUrl}/SitePages/News.aspx`;
     window.open(nextPageUrl, "_blank");
   };
   useEffect(() => {
@@ -83,65 +110,90 @@ const NewsComponent = (props) => {
           }}
           onClick={() => NavigateSitePage()}
         >
-          View All
+          View all
         </Label>
       </div>
-      {news.map((val) => (
-        <div
-          style={{
-            display: "flex",
-            gap: "10px",
-            margin: "30px 0px",
-            padding: "10px 0px",
-            boxShadow: "0px 4px 6px -2px rgba(0, 0, 0, 0.2)",
-          }}
-        >
-          <div style={{ width: "20%" }}>
-            <img
-              src={val.imageUrl}
-              alt=""
-              style={{ width: "100%", height: "100%" }}
-            />
-          </div>
-          <div style={{ width: "80%" }}>
-            <p style={{ margin: 0 }}>{val.Description}</p>
-            <h5 style={{ color: "#089982", margin: "20px 0px 20px 0px" }}>
-              <Icon
-                iconName="TagUnknown12"
-                styles={{
-                  root: {
-                    paddingRight: "10px",
-                    color: "#089982",
-                  },
-                }}
-              />
-              Microsoft
-            </h5>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}>
-                {val.Created}
+      {news.length > 0 ? (
+        news.map((val) => (
+          <div className={styles.newsSection}>
+            <div className={styles.newsImage}>
+              <img src={val.imageUrl} alt="" />
+            </div>
+            <div className={styles.newsContent}>
+              <p
+                style={{ margin: 0 }}
+                className={styles.paratext}
+                title={val.Description}
+              >
+                {val.Description}
               </p>
-              <div style={{ display: "flex", gap: "10px" }}>
-                <img
-                  src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
+              <div className={styles.newsFooter}>
+                {/* <p className={styles.newsTag}>
+                   <Icon
+                    iconName="TagUnknown12"
+                    styles={{
+                      root: {
+                        paddingRight: "6px",
+                        color: "#089982",
+                        fontWeight: 500,
+                      },
+                    }}
+                  /> 
+                  <img src={`${Tagicon}`} />
+                  {val.TagName}
+                 </p>  */}
+                <div className={styles.newsTag}>
+                  {/* <Icon
+                    iconName="TagUnknown12"
+                    styles={{
+                      root: {
+                        paddingRight: "6px",
+                        color: "#089982",
+                        fontWeight: 500,
+                      },
+                    }}
+                  /> */}
+                  <img src={`${Tagicon}`} />
+                  <p> {val.TagName}</p>
+                </div>
+                <div
                   style={{
-                    width: "20px",
-                    height: "20px",
-                    borderRadius: "50%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
-                />
-                <p style={{ margin: 0 }}>{val.DisplayName}</p>
+                >
+                  <p style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}>
+                    {moment(val.Created).format("DD/MM/YYYY")}
+                  </p>
+                  <div className={styles.newsCreator}>
+                    <img
+                      src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
+                    />
+                    <p style={{ margin: "0 0 0 3px" }}>{val.DisplayName}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <Label
+          styles={{
+            root: {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "20vh",
+              fontSize: "18px",
+              fontWeight: "500",
+              marginTop: "30px",
+            },
+          }}
+        >
+          No News Found ...
+        </Label>
+      )}
     </div>
   );
 };

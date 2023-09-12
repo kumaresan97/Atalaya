@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "carosuel-client-side-solution",
+    "name": "atalaya-intranet-client-side-solution",
     "id": "a57e40e1-4f1f-4941-995a-9cf1798bb357",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
@@ -35,6 +35,14 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/carosuel.sppkg"
+    "zippedPackage": "solution/atalaya-intranet.sppkg"
   }
 }
+
+// Old solution name:-
+// carosuel-client-side-solution
+// solution/carosuel.sppkg
+
+// New Solution name:-
+//atalaya-intranet-client-side-solution
+//atalaya-intranet

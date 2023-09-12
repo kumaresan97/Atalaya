@@ -27,14 +27,17 @@ const AnnounceMents = (props) => {
       Select: "*,UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle",
       Topcount: 6,
       Expand: "UserName",
+      Orderby: "ID",
+      Orderbydecorasc: false,
     })
       .then((res) => {
         let arrDatas: IAnnouncementViews[] = [];
         res.forEach((val: any) => {
           arrDatas.push({
-            EMail: val.UserName.EMail,
-            JobTitle: val.UserName.JobTitle,
-            Title: val.UserName.Title,
+            EMail: val.UserName?.EMail,
+            JobTitle: val.UserName?.JobTitle,
+            Title: val.UserName?.Title,
+            ID: val.ID,
             // Position: val.Position,
             // imageUrl: val.ImageUrl,
           });
@@ -49,8 +52,7 @@ const AnnounceMents = (props) => {
   };
 
   const NavigateSitePage = () => {
-    const nextPageUrl =
-      "https://chandrudemo.sharepoint.com/sites/Atalya/SitePages/Announcement.aspx";
+    const nextPageUrl = `${props.context.pageContext.web.absoluteUrl}/SitePages/Announcement.aspx`;
     window.open(nextPageUrl, "_blank");
   };
   useEffect(() => {
@@ -102,7 +104,7 @@ const AnnounceMents = (props) => {
           }}
           onClick={() => NavigateSitePage()}
         >
-          More
+          View all
         </Label>
       </div>
 
@@ -113,46 +115,71 @@ const AnnounceMents = (props) => {
           flexWrap: "wrap",
         }}
       >
-        {data.map((val) => (
-          <div
-            style={{
-              width: "33.33%",
-              padding: "10px",
-            }}
-          >
+        {data.length > 0 ? (
+          data.map((val) => (
             <div
               style={{
-                boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                // padding: "10px",
-                minHeight: "150px",
+                width: "33.33%",
+                padding: "10px",
               }}
             >
-              <div style={{ width: "50px", height: "50px" }}>
-                <img
-                  src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
-                  alt=""
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </div>
-              <p
+              <div
                 style={{
-                  margin: 0,
-                  fontSize: "16px",
-                  marginTop: "6px",
-                  fontWeight: 500,
+                  boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  // padding: "10px",
+                  minHeight: "150px",
                 }}
               >
-                {val.Title}
-              </p>
-              <p style={{ color: "#A98044", margin: 0 }}>{val.JobTitle}</p>
+                <div style={{ width: "50px", height: "50px" }}>
+                  <img
+                    src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
+                    alt=""
+                    style={{ width: "100%", height: "100%" }}
+                  />
+                </div>
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: "16px",
+                    marginTop: "6px",
+                    fontWeight: 500,
+                  }}
+                >
+                  {val.Title ? val.Title : ""}
+                </p>
+                {val.Title !== "" ? (
+                  <p style={{ color: "#A98044", margin: 0 }}>
+                    {val.JobTitle ? val.JobTitle : ""}
+                  </p>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <Label
+            styles={{
+              root: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "20vh",
+                fontSize: "18px",
+                fontWeight: "500",
+                marginTop: "30px",
+                width: "100%",
+              },
+            }}
+          >
+            No Data Found...
+          </Label>
+        )}
       </div>
     </div>
   );

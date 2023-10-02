@@ -5,7 +5,7 @@ import { Icon } from "@fluentui/react/lib/Icon";
 import { sp } from "@pnp/sp/presets/all";
 import * as moment from "moment";
 import "./style.css";
-import { Label, Spinner, SpinnerSize } from "@fluentui/react";
+import { Label, Spinner, SpinnerSize, TooltipHost } from "@fluentui/react";
 import styles from "./News.module.scss";
 import { FontWeights } from "@fluentui/react";
 import SPServices from "../../../Global/SPServices";
@@ -14,14 +14,8 @@ const Tagicon = require("../../../Global/Images/TagIcon.png");
 
 const NewsComponent = (props) => {
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const getData = () => {
-    // sp.web.lists
-    //   .getByTitle("News")
-    //   .items.select("*", "Author/Title", "Author/EMail")
-    //   .expand("Author")
-    //   .top(100)
     SPServices.SPReadItems({
       Listname: "Intranet Latest News",
       Select: "*, Author/Title,Author/EMail",
@@ -45,22 +39,6 @@ const NewsComponent = (props) => {
             Created: val.Created,
           });
         });
-        console.log(res);
-        console.log(arrDatas, "arr");
-
-        // let filterbyDate = arrDatas.filter((val) => {
-        //   return (
-        //     moment(val.Created).format("YYYYMMDD") ==
-        //     moment().format("YYYYMMDD")
-        //   );
-        //   console.log("Created Date:", val.Created);
-        //   console.log(
-        //     "Formatted Created Date:",
-        //     moment(val.Created).format("YYYYMMDD")
-        //   );
-        //   console.log("Current Date:", moment().format("YYYYMMDD"));
-        // });
-        // console.log(filterbyDate, "filter");
 
         setNews([...arrDatas]);
       })
@@ -85,7 +63,6 @@ const NewsComponent = (props) => {
         }}
       >
         <Label
-          //  style={{ margin: 0, color: "#A98044" }}
           styles={{
             root: {
               padding: 0,
@@ -98,7 +75,6 @@ const NewsComponent = (props) => {
           Latest News
         </Label>
         <Label
-          // style={{ margin: 0, color: "#A98044", }}
           styles={{
             root: {
               color: "#A98044",
@@ -120,39 +96,14 @@ const NewsComponent = (props) => {
               <img src={val.imageUrl} alt="" />
             </div>
             <div className={styles.newsContent}>
-              <p
-                style={{ margin: 0 }}
-                className={styles.paratext}
-                title={val.Description}
-              >
-                {val.Description}
-              </p>
+              <TooltipHost content={val.Description}>
+                <p style={{ margin: 0 }} className={styles.paratext}>
+                  {val.Description}
+                </p>
+              </TooltipHost>
+
               <div className={styles.newsFooter}>
-                {/* <p className={styles.newsTag}>
-                   <Icon
-                    iconName="TagUnknown12"
-                    styles={{
-                      root: {
-                        paddingRight: "6px",
-                        color: "#089982",
-                        fontWeight: 500,
-                      },
-                    }}
-                  /> 
-                  <img src={`${Tagicon}`} />
-                  {val.TagName}
-                 </p>  */}
                 <div className={styles.newsTag}>
-                  {/* <Icon
-                    iconName="TagUnknown12"
-                    styles={{
-                      root: {
-                        paddingRight: "6px",
-                        color: "#089982",
-                        fontWeight: 500,
-                      },
-                    }}
-                  /> */}
                   <img src={`${Tagicon}`} />
                   <p> {val.TagName}</p>
                 </div>

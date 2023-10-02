@@ -49,8 +49,7 @@ const Fullcalendar = (props) => {
             start: moment(val.Event).format("YYYY-MM-DD"),
           });
         });
-        console.log(res, "res");
-        console.log(arrDatas);
+
         setEvents([...arrDatas]);
         let FilterData = arrDatas.filter(
           (val) =>
@@ -72,7 +71,6 @@ const Fullcalendar = (props) => {
     localKeys[key] = value;
 
     let today = moment().format("YYYYMMDD");
-    console.log(today, moment(localKeys.Date).format("YYYYMMDD"));
 
     if (today === moment(localKeys.Date).format("YYYYMMDD")) {
       setSelected({ ...selected, Active: "today" });
@@ -105,14 +103,12 @@ const Fullcalendar = (props) => {
           moment(arr.start).format("YYYYMMDD") > moment().format("YYYYMMDD")
         );
       });
-      // } else if (filterValue.Date) {
-      //   localMaster = localMaster.filter((arr) => {
-      //     return (
-      //       moment(arr.start).format("YYYYMMDD") ===
-      //       moment(filterValue.Date).format("YYYYMMDD")
-      //     );
-      //   })
     }
+    localMaster.sort((a, b) => {
+      const dateA = moment(a.start);
+      const dateB = moment(b.start);
+      return dateA.isBefore(dateB) ? -1 : dateA.isAfter(dateB) ? 1 : 0;
+    });
     masterEvents([...localMaster]);
   };
   React.useEffect(() => {
@@ -199,7 +195,7 @@ const Fullcalendar = (props) => {
               },
             }}
           >
-            No Events Found...
+            No events scheduled ...
           </Label>
         )}
       </div>

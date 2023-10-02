@@ -10,10 +10,19 @@ import SPServices from "../../../Global/SPServices";
 import * as moment from "moment";
 import styles from "../components/Calendar.module.scss";
 import "../../../Global/Style.css";
-import { Label, Spinner, SpinnerSize } from "@fluentui/react";
+import {
+  DefaultButton,
+  IButtonStyles,
+  IconButton,
+  Label,
+  Spinner,
+  SpinnerSize,
+} from "@fluentui/react";
 const Calendarview = (props) => {
   const [datas, setDatas] = React.useState([]);
+  const [upcomingEvents, setUpcomingEvents] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [currentEventIndex, setCurrentEventIndex] = React.useState(0);
   const Labelstyle = {
     root: {
       fontSize: "20px",
@@ -30,6 +39,12 @@ const Calendarview = (props) => {
       cursor: "pointer",
     },
   };
+  const btnStyle: Partial<IButtonStyles> = {
+    rootHovered: {
+      backgroundColor: "#fff",
+      cursor: "pointer",
+    },
+  };
   const getEvents = () => {
     SPServices.SPReadItems({
       Listname: "Intranet Calendar",
@@ -43,15 +58,37 @@ const Calendarview = (props) => {
             color: val.Color,
           });
         });
-        console.log(res, "res");
-        console.log(arrDatas);
 
         // await setDatas([...arrDatas]);
-        let filterbyToday = arrDatas.filter(
+        // let filterbyToday = arrDatas.filter(
+        //   (val) =>
+        //     moment(val.start).format("YYYYMMDD") == moment().format("YYYYMMDD")
+        // );
+
+        //new
+        const now = moment();
+        const todaysEvents = arrDatas.filter(
           (val) =>
-            moment(val.start).format("YYYYMMDD") == moment().format("YYYYMMDD")
+            moment(val.start).format("YYYYMMDD") == now.format("YYYYMMDD")
         );
-        setDatas([...filterbyToday]);
+
+        if (todaysEvents.length > 0) {
+          setDatas([...todaysEvents]);
+        } else {
+          const upcomingEvents = arrDatas.filter(
+            (val) => moment(val.start) > now
+          );
+
+          if (upcomingEvents.length > 0) {
+            upcomingEvents.sort(
+              (a: any, b: any) =>
+                moment(a.start).valueOf() - moment(b.start).valueOf()
+            );
+            setDatas([...upcomingEvents]);
+          }
+        }
+
+        // setDatas([...filterbyToday]);
         setLoading(false);
         BindCalender(arrDatas);
       })
@@ -75,9 +112,8 @@ const Calendarview = (props) => {
   //     },
   //     // Add more dummy events...
   //   ];
-  const BindCalender = (data: any) => {
-    console.log(data);
 
+  const BindCalender = (data: any) => {
     let calendarEl = document.getElementById("myCalendar");
     let _Calendar = new Calendar(calendarEl, {
       plugins: [
@@ -129,22 +165,21 @@ const Calendarview = (props) => {
       showNonCurrentDates: false,
       fixedWeekCount: false,
       eventDidMount: (event) => {
-        console.log("eventcolor", event);
-
         const eventTitle = event.event._def.title.toLowerCase();
-        console.log(eventTitle);
-        if (eventTitle.includes("birthday")) {
-          event.el.setAttribute("data-bs-target", "birth");
-          // event.el.style.backgroundColor = event.backgroundColor;
-        } else if (eventTitle.includes("marriage")) {
-          event.el.setAttribute("data-bs-target", "testmrg");
-        } else if (eventTitle.includes("vacation")) {
-          event.el.setAttribute("data-bs-target", "testvacation");
-        } else if (eventTitle.includes("deepavali")) {
-          event.el.setAttribute("data-bs-target", "deepavali");
-        } else {
-          event.el.setAttribute("data-bs-target", "event");
-        }
+        event.el.setAttribute("data-bs-target", "event");
+        // console.log(eventTitle);
+        // if (eventTitle.includes("birthday")) {
+        //   event.el.setAttribute("data-bs-target", "birth");
+        //   // event.el.style.backgroundColor = event.backgroundColor;
+        // } else if (eventTitle.includes("marriage")) {
+        //   event.el.setAttribute("data-bs-target", "testmrg");
+        // } else if (eventTitle.includes("vacation")) {
+        //   event.el.setAttribute("data-bs-target", "testvacation");
+        // } else if (eventTitle.includes("deepavali")) {
+        //   event.el.setAttribute("data-bs-target", "deepavali");
+        // } else {
+        //   event.el.setAttribute("data-bs-target", "event");
+        // }
         // event.el.setAttribute("data-id", event.event.id);
       },
       //filter conditions
@@ -169,7 +204,15 @@ const Calendarview = (props) => {
       // },
 
       dateClick: function (arg) {
-        console.log(arg);
+        const selectedDateString = moment(arg.dateStr).format("YYYYMMDD");
+
+        const filterEvents = data.filter(
+          (event) =>
+            moment(event.start).format("YYYYMMDD") === selectedDateString
+        );
+
+        setDatas([...filterEvents]);
+        setCurrentEventIndex(0);
       },
     });
 
@@ -178,18 +221,24 @@ const Calendarview = (props) => {
     // setLoader(false);
   };
 
-  console.log(datas.length > 0 && datas[0].start, "datass");
-
   const NavigateSitePage = () => {
-    console.log(props.context.pageContext.web.absoluteUrl);
-
     const nextPageUrl = `${props.context.pageContext.web.absoluteUrl}/SitePages/Calendar.aspx`;
     window.open(nextPageUrl, "_blank");
   };
+  const navigateNextEvent = () => {
+    if (currentEventIndex < datas.length - 1) {
+      setCurrentEventIndex(currentEventIndex + 1);
+    }
+  };
+  const navigatePreviousEvent = () => {
+    if (currentEventIndex > 0) {
+      setCurrentEventIndex(currentEventIndex - 1);
+    }
+  };
+
   React.useEffect(() => {
     setLoading(true);
     getEvents();
-    console.log(datas, "datas");
   }, []);
   return (
     <div style={{ background: "#fff", padding: "12px" }}>
@@ -200,17 +249,16 @@ const Calendarview = (props) => {
         </Label>
       </div>
       <div id="myCalendar"></div>
-      {datas.length > 0 ? (
+      {/* {datas.length > 0 ? (
         <div
-          // style={{ display: "flex", gap: "20px" }}
+          
           className={styles.showEvent}
         >
           <div
-            // style={{ borderRight: "1px solid #A98644", paddingRight: "10px" }}
+            
             className={styles.events}
           >
-            {/* <Label>{moment(datas[0].start).format("D")}</Label> */}
-            {/* //new */}
+           
             <Label>
               {String(moment(datas[0].start).format("D")).padStart(2, "0")}
             </Label>
@@ -222,8 +270,76 @@ const Calendarview = (props) => {
           <p style={{ color: "#000" }}>{datas[0].title}</p>
         </div>
       ) : (
+        upcomingEvents.length > 0 && (
+          
+          <div
+            
+            className={styles.showEvent}
+          >
+            <div
+             
+              className={styles.events}
+            >
+             
+              <Label>
+                {String(moment(upcomingEvents[0].start).format("D")).padStart(
+                  2,
+                  "0"
+                )}
+              </Label>
+
+              <Label className={styles.month}>
+                {moment(upcomingEvents[0].start).format("MMM")}
+              </Label>
+            </div>
+            <p style={{ color: "#000" }}>{upcomingEvents[0].title}</p>
+          </div>
+        )
+      )} */}
+      {/* //new */}
+      {datas.length > 0 && datas[currentEventIndex] ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div className={styles.showEvent}>
+            <div className={styles.events}>
+              <Label>
+                {String(
+                  moment(datas[currentEventIndex].start).format("D")
+                ).padStart(2, "0")}
+              </Label>
+              <Label className={styles.month}>
+                {moment(datas[currentEventIndex].start).format("MMM")}
+              </Label>
+            </div>
+            <p style={{ color: "#000" }}>{datas[currentEventIndex].title}</p>
+          </div>
+          {datas.length > 1 && (
+            <div>
+              <IconButton
+                iconProps={{ iconName: "ChevronLeftMed" }}
+                title="Previous"
+                styles={btnStyle}
+                onClick={navigatePreviousEvent}
+                disabled={currentEventIndex === 0}
+              />
+              <IconButton
+                title="Next"
+                styles={btnStyle}
+                iconProps={{ iconName: "ChevronRightMed" }}
+                onClick={navigateNextEvent}
+                disabled={currentEventIndex === datas.length - 1}
+              />
+            </div>
+          )}
+        </div>
+      ) : (
         <div className={styles.nodatafound}>
-          <Label>No Event Today</Label>
+          <Label>No events scheduled ...</Label>
         </div>
       )}
     </div>

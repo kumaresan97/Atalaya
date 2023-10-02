@@ -4,6 +4,7 @@ import { ICarosuelProps } from "./ICarosuelProps";
 import { escape } from "@microsoft/sp-lodash-subset";
 import { sp } from "@pnp/sp/presets/all";
 import MainComponent from "./MainComponent";
+// import CustomCarousel from "./Test";
 
 export default class Carosuel extends React.Component<ICarosuelProps, {}> {
   constructor(prop: ICarosuelProps) {

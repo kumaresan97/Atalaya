@@ -14,6 +14,7 @@ import {
   Label,
   LabelBase,
   Spinner,
+  TooltipHost,
 } from "@fluentui/react";
 import { Placeholder } from "@pnp/spfx-controls-react";
 let masterData = [];
@@ -108,8 +109,6 @@ const NewsviewComponent = (props) => {
     }
     if (filterValue.Date != null) {
       localMaster = localMaster.filter((arr) => {
-        console.log(arr.Created, filterValue.Date);
-
         return (
           moment(arr.Created).format("YYYYMMDD") ==
           moment(filterValue.Date).format("YYYYMMDD")
@@ -301,13 +300,12 @@ const NewsviewComponent = (props) => {
               <img src={val.imageUrl} alt="" />
             </div>
             <div className={styles.newsContent}>
-              <p
-                style={{ margin: 0 }}
-                className={styles.paratext}
-                title={val.Description}
-              >
-                {val.Description}
-              </p>
+              <TooltipHost content={val.Description}>
+                <p style={{ margin: 0 }} className={styles.paratext}>
+                  {val.Description}
+                </p>
+              </TooltipHost>
+
               <div className={styles.newsFooter}>
                 <p className={styles.newsTag}>
                   {/* <Icon

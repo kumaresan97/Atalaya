@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { sp } from "@pnp/sp/presets/all";
-import { Label, SearchBox } from "@fluentui/react";
+import { Label, SearchBox, TooltipHost } from "@fluentui/react";
 import "../../announceMents/components/style.css";
 import SPServices from "../../../Global/SPServices";
 import { IAnnouncementViews } from "../../../Global/AtalayaInterface";
 import { Config } from "../../../Global/Config";
+import styles from "../components/Announcementview.module.scss";
 const Announcementviews = (props) => {
   const [masterData, setMasterData] = useState<IAnnouncementViews[]>([]);
   const [data, setData] = useState<IAnnouncementViews[]>([]);
@@ -35,8 +36,6 @@ const Announcementviews = (props) => {
       Orderbydecorasc: false,
     })
       .then((res) => {
-        console.log("resview", res);
-
         let arrDatas: IAnnouncementViews[] = [];
         res.forEach((val: any) => {
           arrDatas.push({
@@ -48,8 +47,7 @@ const Announcementviews = (props) => {
             ID: val.ID ? val.ID : null,
           });
         });
-        console.log(res);
-        console.log(arrDatas, "arr");
+
         setMasterData([...arrDatas]);
         setData([...arrDatas]);
       })
@@ -69,19 +67,21 @@ const Announcementviews = (props) => {
   }, []);
   return (
     <div
-      style={{
-        background: "#ffffff",
-        padding: "10px",
-      }}
+      // style={{
+      //   background: "#ffffff",
+      //   padding: "10px",
+      // }}
+      className={styles.avcontainer}
     >
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "0px 0px 20px 0px",
-          padding: "0px 24px",
-        }}
+        // style={{
+        //   display: "flex",
+        //   justifyContent: "space-between",
+        //   alignItems: "center",
+        //   margin: "0px 0px 20px 0px",
+        //   padding: "0px 24px",
+        // }}
+        className={styles.avHeader}
       >
         <Label
           styles={{
@@ -93,7 +93,7 @@ const Announcementviews = (props) => {
             },
           }}
         >
-          Announcements
+          New Hires{" "}
         </Label>
         {/* <Label
           styles={{
@@ -119,50 +119,65 @@ const Announcementviews = (props) => {
       </div>
 
       <div
-        style={{
-          display: "flex",
-          width: "100%",
-          flexWrap: "wrap",
-        }}
+        // style={{
+        //   display: "flex",
+        //   width: "100%",
+        //   flexWrap: "wrap",
+        // }}
+        className={styles.avboxContainer}
       >
         {masterData.length > 0 ? (
           masterData.map((val) => (
             <div
-              style={{
-                width: "16.666%",
-                padding: "10px",
-              }}
+              // style={{
+              //   width: "16.666%",
+              //   padding: "10px",
+              // }}
+              className={styles.avboxwrapper}
             >
               <div
-                style={{
-                  boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  // padding: "10px",
-                  minHeight: "150px",
-                }}
+                // style={{
+                //   boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                //   width: "100%",
+                //   display: "flex",
+                //   justifyContent: "center",
+                //   alignItems: "center",
+                //   flexDirection: "column",
+                //   // padding: "10px",
+                //   minHeight: "150px",
+                // }}
+                className={styles.avboxContent}
               >
-                <div style={{ width: "50px", height: "50px" }}>
+                <div
+                  // style={{ width: "50px", height: "50px" }}
+                  className={styles.imgwrapper}
+                >
                   <img
                     src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
                     alt=""
-                    style={{ width: "100%", height: "100%" }}
+                    // style={{ width: "100%", height: "100%" }}
                   />
                 </div>
                 <p
-                  style={{
-                    margin: 0,
-                    fontSize: "16px",
-                    marginTop: "6px",
-                    fontWeight: 500,
-                  }}
+                  // style={{
+                  //   margin: 0,
+                  //   fontSize: "16px",
+                  //   marginTop: "6px",
+                  //   fontWeight: 500,
+                  //   textAlign: "center",
+                  // }}
+                  className={styles.title}
                 >
                   {val.Title}
                 </p>
-                <p style={{ color: "#A98044", margin: 0 }}>{val.JobTitle}</p>
+                <TooltipHost content={val.JobTitle}>
+                  <p
+                    // style={{ color: "#A98044", margin: 0, textAlign: "center" }}
+                    className={styles.jobtitle}
+                  >
+                    {val.JobTitle}
+                  </p>
+                </TooltipHost>
               </div>
             </div>
           ))

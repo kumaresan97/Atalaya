@@ -1,34 +1,64 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
-
-.announceMents {
-  overflow: hidden;
-  padding: 1em;
-  color: "[theme:bodyText, default: #323130]";
-  color: var(--bodyText);
-  &.teams {
-    font-family: $ms-font-family-fallbacks;
+.AnnounceContainer {
+  background-color: #ffffff;
+  padding: 10px;
+  .titlecontainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 0px 20px 0px;
+    padding: 0px 12px;
   }
-}
+  .boxcontainer {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    .boxdiv {
+      width: 33.33%;
+      padding: 10px;
+      .innerbox {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 150px;
 
-.welcome {
-  text-align: center;
-}
+        .imgWraper {
+          width: 50px;
+          height: 50px;
+        }
+        .titleWraper {
+          margin: 0;
+          font-size: 16px;
+          margin-top: 6px;
+          font-weight: 500;
+          text-align: center;
+          display: -webkit-box;
 
-.welcomeImage {
-  width: 100%;
-  max-width: 420px;
-}
+          -webkit-box-orient: vertical;
 
-.links {
-  a {
-    text-decoration: none;
-    color: "[theme:link, default:#03787c]";
-    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+          -webkit-line-clamp: 1;
 
-    &:hover {
-      text-decoration: underline;
-      color: "[theme:linkHovered, default: #014446]";
-      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+          overflow: hidden;
+
+          text-overflow: ellipsis;
+        }
+        .jobTitle {
+          color: #a98044;
+          margin: 0;
+          text-align: center;
+          display: -webkit-box;
+
+          -webkit-box-orient: vertical;
+
+          -webkit-line-clamp: 1;
+
+          overflow: hidden;
+
+          text-overflow: ellipsis;
+        }
+      }
     }
   }
 }

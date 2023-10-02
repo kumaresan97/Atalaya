@@ -1,27 +1,16 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { sp } from "@pnp/sp/presets/all";
-import { Label } from "@fluentui/react";
+import { Label, TooltipHost } from "@fluentui/react";
+import styles from "./AnnounceMents.module.scss";
 import "./style.css";
 import { IAnnouncementViews } from "../../../Global/AtalayaInterface";
 import SPServices from "../../../Global/SPServices";
 import { Config } from "../../../Global/Config";
-
 const AnnounceMents = (props) => {
   const [data, setData] = useState<IAnnouncementViews[]>([]);
 
   const getDatas = () => {
-    // sp.web.lists
-    //   .getByTitle("AnnounceMents")
-    //   .items.get()
-    // sp.web.lists
-    //   .getByTitle("Announcements")
-    //   .items.select(
-    //     "UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle"
-    //   )
-    //   .expand("UserName")
-    //   .top(6)
-    //   .get()
     SPServices.SPReadItems({
       Listname: Config.ListNames.Announcement,
       Select: "*,UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle",
@@ -42,8 +31,7 @@ const AnnounceMents = (props) => {
             // imageUrl: val.ImageUrl,
           });
         });
-        console.log(res);
-        console.log(arrDatas, "arr");
+
         setData([...arrDatas]);
       })
       .catch((err) => {
@@ -64,15 +52,17 @@ const AnnounceMents = (props) => {
         background: "#ffffff",
         padding: "10px",
       }}
+      className={styles.AnnounceContainer}
     >
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "0px 0px 20px 0px",
-          padding: "0px 12px",
-        }}
+        // style={{
+        //   display: "flex",
+        //   justifyContent: "space-between",
+        //   alignItems: "center",
+        //   margin: "0px 0px 20px 0px",
+        //   padding: "0px 12px",
+        // }}
+        className={styles.titlecontainer}
       >
         <Label
           styles={{
@@ -84,7 +74,7 @@ const AnnounceMents = (props) => {
             },
           }}
         >
-          Announcements
+          New Hires
         </Label>
         <Label
           styles={{
@@ -109,56 +99,71 @@ const AnnounceMents = (props) => {
       </div>
 
       <div
-        style={{
-          display: "flex",
-          width: "100%",
-          flexWrap: "wrap",
-        }}
+        // style={{
+        //   display: "flex",
+        //   width: "100%",
+        //   flexWrap: "wrap",
+        // }}
+        className={styles.boxcontainer}
       >
         {data.length > 0 ? (
           data.map((val) => (
             <div
-              style={{
-                width: "33.33%",
-                padding: "10px",
-              }}
+              // style={{
+              //   width: "33.33%",
+              //   padding: "10px",
+              // }}
+              className={styles.boxdiv}
             >
               <div
-                style={{
-                  boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  // padding: "10px",
-                  minHeight: "150px",
-                }}
+                // style={{
+                //   boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                //   width: "100%",
+                //   display: "flex",
+                //   justifyContent: "center",
+                //   alignItems: "center",
+                //   flexDirection: "column",
+                //   // padding: "10px",
+                //   minHeight: "150px",
+                // }}
+                className={styles.innerbox}
               >
-                <div style={{ width: "50px", height: "50px" }}>
+                <div
+                  // style={{ width: "50px", height: "50px" }}
+                  className={styles.imgWraper}
+                >
                   <img
+                    width="100%"
+                    height="100%"
                     src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
                     alt=""
-                    style={{ width: "100%", height: "100%" }}
+                    // style={{ width: "100%", height: "100%" }}
                   />
                 </div>
                 <p
-                  style={{
-                    margin: 0,
-                    fontSize: "16px",
-                    marginTop: "6px",
-                    fontWeight: 500,
-                  }}
+                  // style={{
+                  //   margin: 0,
+                  //   fontSize: "16px",
+                  //   marginTop: "6px",
+                  //   fontWeight: 500,
+                  //   textAlign: "center",
+                  // }}
+                  className={styles.titleWraper}
                 >
                   {val.Title ? val.Title : ""}
                 </p>
-                {val.Title !== "" ? (
-                  <p style={{ color: "#A98044", margin: 0 }}>
-                    {val.JobTitle ? val.JobTitle : ""}
-                  </p>
-                ) : (
-                  <div></div>
-                )}
+                <TooltipHost content={val.JobTitle}>
+                  {val.Title !== "" ? (
+                    <p
+                      className={styles.jobTitle}
+                      // style={{ color: "#A98044", margin: 0, textAlign: "center" }}
+                    >
+                      {val.JobTitle ? val.JobTitle : ""}
+                    </p>
+                  ) : (
+                    <div></div>
+                  )}
+                </TooltipHost>
               </div>
             </div>
           ))

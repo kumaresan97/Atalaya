@@ -14,13 +14,11 @@ import "./style.css";
 import { IImgcarosuel } from "../../../Global/AtalayaInterface";
 import SPServices from "../../../Global/SPServices";
 import styles from "./ImageCarosuel.module.scss";
+import { TooltipHost } from "@fluentui/react";
 const Imgcarosuel = (props) => {
   const [datas, setDatas] = useState<IImgcarosuel[]>([]);
 
   const getDatas = () => {
-    // sp.web.lists
-    //   .getByTitle("ImageCarosuel")
-    //   .items.get()
     SPServices.SPReadItems({
       Listname: "Intranet 4 image carousel",
     })
@@ -37,18 +35,14 @@ const Imgcarosuel = (props) => {
         for (let i = 0; i < arrDatas.length; i += 4) {
           chunkedDatas.push(arrDatas.slice(i, i + 4));
         }
-        console.log(arrDatas, "arr");
-        console.log(chunkedDatas, "chunk");
-        console.log(res);
+
         // console.log(arrDatas, "arr");
         setDatas([...chunkedDatas]);
-        console.log(datas, "datas");
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log(datas);
   const handleItemClick = (url) => {
     if (url) {
       window.open(url, "_blank");
@@ -60,58 +54,7 @@ const Imgcarosuel = (props) => {
   }, []);
   return (
     <div className="imgCarosuel">
-      {/* <CCarousel controls indicators data-interval="500">
-        {datas.map((arr) => {
-          return (
-            <CCarouselItem>
-              <CContainer>
-                <div>
-                  <div
-                    style={{
-                      background: "#000",
-                      position: "relative",
-                      width: "100%",
-                      height: "350px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <div
-                      //   onClick={() => {
-                      //     arr.Url.trim() !== ""
-                      //       ? window.open(arr.Url, "_blank")
-                      //       : "";
-                      //   }}
-                      //   className="w-100"
-                      style={{
-                        // objectFit: "cover",
-                        width: "25%",
-                        // height: "100%",
-                        // backgroundSize: "cover",
-                      }}
-                    >
-                      <CImage
-                        // className="w-100"
-                        style={{
-                          objectFit: "cover",
-                          width: "100%",
-                          height: "100%",
-                          backgroundSize: "cover",
-                        }}
-                        src={arr.ImageUrl ? arr.ImageUrl : ""}
-                        alt="slide 1"
-                      />
-                      <h4>{arr.Title}</h4>
-                    </div>
-                  </div>
-                </div>
-              </CContainer>
-            </CCarouselItem>
-          );
-        })}
-      </CCarousel> */}
-
-      <CCarousel pause={true} controls indicators data-interval="500000000">
+      <CCarousel controls indicators>
         {datas.length > 0 &&
           datas.map((chunk: any, index) => (
             <CCarouselItem key={index}>
@@ -139,12 +82,11 @@ const Imgcarosuel = (props) => {
                           height: "100%",
                         }}
                       />
-                      <p
-                        className={styles.caroContainerTitle}
-                        title={data.Title}
-                      >
-                        {data.Title}
-                      </p>
+                      <TooltipHost content={data.Title}>
+                        <p className={styles.caroContainerTitle}>
+                          {data.Title}
+                        </p>
+                      </TooltipHost>
                     </div>
                   </div>
                 ))}

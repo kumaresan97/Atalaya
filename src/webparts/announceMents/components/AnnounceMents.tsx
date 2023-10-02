@@ -1,5 +1,4 @@
 import * as React from "react";
-import styles from "./AnnounceMents.module.scss";
 import { IAnnounceMentsProps } from "./IAnnounceMentsProps";
 import { escape } from "@microsoft/sp-lodash-subset";
 import { sp } from "@pnp/sp/presets/all";

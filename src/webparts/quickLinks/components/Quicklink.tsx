@@ -6,14 +6,12 @@ import "./style.css";
 import { IQuickLink } from "../../../Global/AtalayaInterface";
 import SPServices from "../../../Global/SPServices";
 import { Label } from "@fluentui/react";
+import { TooltipHost } from "office-ui-fabric-react";
 
 const Quicklink = (props) => {
   const [datas, setDatas] = useState<IQuickLink[]>([]);
 
   const getData = () => {
-    // sp.web.lists
-    //   .getByTitle("QuickLinks")
-    //   .items.get()
     SPServices.SPReadItems({
       Listname: "Intranet Quicklinks",
       Topcount: 8,
@@ -29,13 +27,24 @@ const Quicklink = (props) => {
             imageUrl: JSON.parse(val.Image).serverRelativeUrl,
           });
         });
-        console.log(res);
-        console.log(arrDatas, "arr");
+
         setDatas([...arrDatas]);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const openEmailClient = (val) => {
+    const emailAddress = val;
+    const subject = "Subject goes here";
+    const body = "Email body goes here";
+
+    const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoUrl;
   };
   useEffect(() => {
     getData();
@@ -49,15 +58,7 @@ const Quicklink = (props) => {
         boxSizing: "border-box",
       }}
     >
-      <div
-        // style={{
-        //   display: "flex",
-        //   flexWrap: "wrap",
-        //   width: "100%",
-        //   gap: "10px",
-        // }}
-        className={styles.maindiv}
-      >
+      <div className={styles.maindiv}>
         {datas.length > 0 ? (
           datas.map((val: any) => (
             <div
@@ -67,29 +68,13 @@ const Quicklink = (props) => {
                 val.Url.trim() !== "" ? window.open(val.Url, "_blank") : "";
               }}
             >
-              <div
-                // style={{ width: "50px", height: "50px" }}
-                className={styles.boximgdiv}
-              >
-                <img
-                  src={val.imageUrl}
-                  alt="img"
-                  // style={{ width: "100", height: "100%" }}
-                  className={styles.img}
-                />
+              <div className={styles.boximgdiv}>
+                <img src={val.imageUrl} alt="img" className={styles.img} />
               </div>
 
-              <div
-                // style={{
-                //   textAlign: "center",
-                //   fontSize: 14,
-                //   fontWeight: 500,
-                //   marginTop: 16,
-                // }}
-                className={styles.Imgtitile}
-              >
-                {val.Title}
-              </div>
+              <TooltipHost content={val.Title}>
+                <div className={styles.Imgtitile}>{val.Title}</div>
+              </TooltipHost>
             </div>
           ))
         ) : (

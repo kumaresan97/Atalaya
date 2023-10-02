@@ -26,7 +26,6 @@ const Mapview = (props) => {
           });
         });
         setMapview([...mapData]);
-        console.log("res", res);
       })
       .catch((err) => {
         console.log(err);

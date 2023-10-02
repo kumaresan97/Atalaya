@@ -1,0 +1,61 @@
+CustomCarousel.css .custom-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.carousel-content {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  max-width: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.carousel-item.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.prev-button,
+.next-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: #0056b3;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dot.active {
+  background-color: #007bff;
+}

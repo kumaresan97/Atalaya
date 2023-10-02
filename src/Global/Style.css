@@ -40,6 +40,9 @@ table.fc-col-header {
 .fc-daygrid-day-events {
   display: none !important;
 }
+/* .fc-daygrid-day-frame:hover .fc-daygrid-day-events {
+  display: inline-block !important;
+} */
 /* normal */
 .fc-day :has([data-bs-target="event"]) .fc-daygrid-day-number {
   background: #a98644 !important;
@@ -50,6 +53,10 @@ table.fc-col-header {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer !important;
+}
+.fc-daygrid-day-number :hover {
+  cursor: pointer !important;
 }
 
 .fc-day :has([data-bs-target="birth"]) .fc-daygrid-day-number {

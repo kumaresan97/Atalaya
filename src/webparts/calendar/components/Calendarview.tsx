@@ -17,6 +17,7 @@ import {
   Label,
   Spinner,
   SpinnerSize,
+  TooltipHost,
 } from "@fluentui/react";
 const Calendarview = (props) => {
   const [datas, setDatas] = React.useState([]);
@@ -204,12 +205,31 @@ const Calendarview = (props) => {
       // },
 
       dateClick: function (arg) {
+        const allDayNumberElements = document.querySelectorAll(
+          ".fc-daygrid-day-number"
+        );
+        allDayNumberElements.forEach((dayNumber) => {
+          (dayNumber as HTMLElement).style.color = "";
+        });
+
+        const dayNumber = arg.dayEl.querySelector(".fc-daygrid-day-number");
+        if (dayNumber) {
+          console.log(dayNumber, "daynumber");
+          (dayNumber as HTMLElement).style.color = "#a98644";
+        }
         const selectedDateString = moment(arg.dateStr).format("YYYYMMDD");
 
         const filterEvents = data.filter(
           (event) =>
             moment(event.start).format("YYYYMMDD") === selectedDateString
         );
+        const allDateElements = document.querySelectorAll(".fc-day");
+        // allDateElements.forEach((dateElement) => {
+        //   (dateElement as HTMLElement).style.backgroundColor = "";
+        // });
+
+        // // Set background color for the clicked date
+        // arg.dayEl.style.backgroundColor = "red";
 
         setDatas([...filterEvents]);
         setCurrentEventIndex(0);
@@ -241,7 +261,10 @@ const Calendarview = (props) => {
     getEvents();
   }, []);
   return (
-    <div style={{ background: "#fff", padding: "12px" }}>
+    <div
+      className={styles.calendercontainer}
+      // style={{ background: "#fff", padding: "12px" }}
+    >
       <div className={styles.Calender}>
         <Label styles={Labelstyle}>Firm Calendar</Label>
         <Label styles={Labelstyle1} onClick={() => NavigateSitePage()}>
@@ -303,6 +326,7 @@ const Calendarview = (props) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            width: "100%",
           }}
         >
           <div className={styles.showEvent}>
@@ -316,10 +340,16 @@ const Calendarview = (props) => {
                 {moment(datas[currentEventIndex].start).format("MMM")}
               </Label>
             </div>
-            <p style={{ color: "#000" }}>{datas[currentEventIndex].title}</p>
+            <TooltipHost
+              styles={{ root: { width: "calc(100% - 76px)" } }}
+              content={datas[currentEventIndex].title}
+            >
+              {" "}
+              <p style={{ color: "#000" }}>{datas[currentEventIndex].title}</p>
+            </TooltipHost>
           </div>
           {datas.length > 1 && (
-            <div>
+            <div className={styles.prevnextcontainer}>
               <IconButton
                 iconProps={{ iconName: "ChevronLeftMed" }}
                 title="Previous"

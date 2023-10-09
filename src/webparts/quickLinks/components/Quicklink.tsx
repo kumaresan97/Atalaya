@@ -14,7 +14,7 @@ const Quicklink = (props) => {
   const getData = () => {
     SPServices.SPReadItems({
       Listname: "Intranet Quicklinks",
-      Topcount: 8,
+      Topcount: 12,
     })
       .then((res) => {
         let arrDatas: IQuickLink[] = [];
@@ -52,11 +52,12 @@ const Quicklink = (props) => {
 
   return (
     <div
-      style={{
-        width: "100%",
-        margin: "auto",
-        boxSizing: "border-box",
-      }}
+      // style={{
+      //   width: "100%",
+      //   margin: "auto",
+      //   boxSizing: "border-box",
+      // }}
+      className={styles.container}
     >
       <div className={styles.maindiv}>
         {datas.length > 0 ? (

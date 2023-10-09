@@ -55,6 +55,7 @@ table.fc-col-header {
   justify-content: center;
   cursor: pointer !important;
 }
+
 .fc-daygrid-day-number :hover {
   cursor: pointer !important;
 }
@@ -127,8 +128,15 @@ th.fc-col-header-cell a {
 }
 .fc .fc-daygrid-day-frame a {
   text-decoration: none !important;
-  color: #000 !important;
+  color: #000;
 }
+.fc .fc-daygrid-day-frame a:hover {
+  cursor: pointer !important;
+}
+.fc .fc-highlight {
+  background: none !important;
+}
+
 .fc-header-toolbar {
   width: 216px;
   margin: auto;
@@ -188,6 +196,8 @@ th[role="columnheader"] a {
 .fc .fc-button-primary:focus {
   box-shadow: none !important;
 }
+/* Increase specificity */
+
 /* //tootltip */
 /* .fc-tooltip {
   position: absolute !important;
@@ -205,3 +215,6 @@ th[role="columnheader"] a {
 .your-calendar-container {
   position: relative !important;
 } */
+.colorchange {
+  color: red;
+}

@@ -1,4 +1,4 @@
-import { DatePicker, DefaultButton, Label } from "@fluentui/react";
+import { DatePicker, DefaultButton, Label, TooltipHost } from "@fluentui/react";
 import styles from "../components/FullCalendarview.module.scss";
 import * as React from "react";
 import SPServices from "../../../Global/SPServices";
@@ -173,8 +173,11 @@ const Fullcalendar = (props) => {
                       {moment(val.start).format("MMM")}
                     </Label>
                   </div>
+
                   <div className={styles.title_wrap}>
-                    <p className={styles.title}>{val.title}</p>
+                    <TooltipHost content={val.title}>
+                      <p className={styles.title}>{val.title}</p>
+                    </TooltipHost>
                   </div>
                 </div>
               </div>

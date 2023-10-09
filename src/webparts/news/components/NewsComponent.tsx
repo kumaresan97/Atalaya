@@ -56,11 +56,12 @@ const NewsComponent = (props) => {
   return (
     <div>
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        // style={{
+        //   display: "flex",
+        //   alignItems: "center",
+        //   justifyContent: "space-between",
+        // }}
+        className={styles.headcontainer}
       >
         <Label
           styles={{
@@ -108,20 +109,28 @@ const NewsComponent = (props) => {
                   <p> {val.TagName}</p>
                 </div>
                 <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  // style={{
+                  //   display: "flex",
+                  //   justifyContent: "space-between",
+                  //   alignItems: "center",
+                  // }}
+                  className={styles.imgcontainer}
                 >
-                  <p style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}>
+                  <p
+                    //  style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}
+                    className={styles.date}
+                  >
                     {moment(val.Created).format("DD/MM/YYYY")}
                   </p>
                   <div className={styles.newsCreator}>
                     <img
                       src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
                     />
-                    <p style={{ margin: "0 0 0 3px" }}>{val.DisplayName}</p>
+                    <p
+                    //  style={{ margin: "0 0 0 3px" }}
+                    >
+                      {val.DisplayName}
+                    </p>
                   </div>
                 </div>
               </div>

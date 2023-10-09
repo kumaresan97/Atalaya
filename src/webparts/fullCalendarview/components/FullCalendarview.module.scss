@@ -69,8 +69,19 @@
         width: 75%;
         border-left: 1px solid #dedede;
         padding-left: 12px;
+
         p {
           margin: 0;
+          display: -webkit-box;
+
+          -webkit-box-orient: vertical;
+
+          -webkit-line-clamp: 3;
+
+          overflow: hidden;
+
+          text-overflow: ellipsis;
+          cursor: default;
         }
       }
     }

@@ -13,6 +13,11 @@ const Announcementviews = (props) => {
   const searchstyle = {
     root: {
       width: 300,
+      selectors: {
+        ":hover": {
+          cursor: "pointer",
+        },
+      },
     },
   };
 
@@ -42,12 +47,23 @@ const Announcementviews = (props) => {
             EMail: val.UserName?.EMail,
             JobTitle: val.UserName?.JobTitle,
             Title: val.UserName?.Title,
+            Sequence: val.Sequence ? val.Sequence : null,
+            image: val.Image ? JSON.parse(val.Image).serverRelativeUrl : "",
+
             // Position: val.Position,
             // imageUrl: val.ImageUrl,
             ID: val.ID ? val.ID : null,
           });
         });
+        arrDatas.sort((a, b) => {
+          const sequenceComparison = a.Sequence - b.Sequence;
 
+          if (sequenceComparison === 0) {
+            return a.ID - b.ID;
+          }
+
+          return sequenceComparison;
+        });
         setMasterData([...arrDatas]);
         setData([...arrDatas]);
       })
@@ -58,7 +74,7 @@ const Announcementviews = (props) => {
 
   const handleSearch = (val) => {
     const filteredResults = data.filter((item) =>
-      item.Title.toLowerCase().includes(val.toLowerCase())
+      item.Title.trim().toLowerCase().includes(val.trim().toLowerCase())
     );
     setMasterData([...filteredResults]);
   };
@@ -153,7 +169,11 @@ const Announcementviews = (props) => {
                   className={styles.imgwrapper}
                 >
                   <img
-                    src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
+                    src={
+                      val.image
+                        ? val.image
+                        : `/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`
+                    }
                     alt=""
                     // style={{ width: "100%", height: "100%" }}
                   />

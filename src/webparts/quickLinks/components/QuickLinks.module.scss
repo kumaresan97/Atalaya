@@ -1,40 +1,47 @@
-.maindiv {
-  display: flex;
-  flex-wrap: wrap;
+.container {
   width: 100%;
-  gap: 10px;
-}
-.box {
-  width: 136px;
-  background-color: #fff;
+  margin: auto;
   box-sizing: border-box;
-  cursor: pointer;
-  height: 136px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  .boximgdiv {
-    width: 50px;
-    height: 50px;
-    .img {
-      width: 100%;
-      height: "100%";
-    }
+  min-height: 427px;
+  .maindiv {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
   }
-  .Imgtitile {
-    text-align: center;
-    font-size: 14px;
-    font-weight: 500;
-    margin-top: 16px;
-    display: -webkit-box;
+  .box {
+    width: 136px;
+    background-color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 136px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 5px;
+    .boximgdiv {
+      width: 50px;
+      height: 50px;
+      .img {
+        width: 100%;
+        height: "100%";
+      }
+    }
+    .Imgtitile {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 16px;
+      display: -webkit-box;
 
-    -webkit-box-orient: vertical;
+      -webkit-box-orient: vertical;
 
-    -webkit-line-clamp: 1;
+      -webkit-line-clamp: 1;
 
-    overflow: hidden;
+      overflow: hidden;
 
-    text-overflow: ellipsis;
+      text-overflow: ellipsis;
+    }
   }
 }

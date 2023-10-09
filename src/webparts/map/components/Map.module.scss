@@ -19,6 +19,17 @@
       font-size: 12px;
       font-weight: 600;
       box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      min-height: 50px;
+      cursor: default;
+      display: -webkit-box;
+
+      -webkit-box-orient: vertical;
+
+      -webkit-line-clamp: 2;
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
     }
   }
 }

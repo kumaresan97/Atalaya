@@ -14,6 +14,17 @@
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   margin: 0;
+  cursor: default;
+}
+.nwviewcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .nvdatewrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
 }
 .newsSection {
   display: flex;
@@ -52,6 +63,16 @@
   }
   .newsFooter {
     display: block;
+    .footwrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .paraDate {
+        margin: 0;
+        color: #d72f54;
+        font-size: 15px;
+      }
+    }
   }
   .newsCreator {
     display: flex;
@@ -60,6 +81,9 @@
       width: 20px;
       height: 20px;
       border-radius: 6px;
+    }
+    p {
+      margin: 0 0 0 3px;
     }
   }
 }

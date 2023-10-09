@@ -13,11 +13,11 @@ const AnnounceMents = (props) => {
   const getDatas = () => {
     SPServices.SPReadItems({
       Listname: Config.ListNames.Announcement,
-      Select: "*,UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle",
-      Topcount: 6,
+      Select:
+        "*,UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle,UserName/Name",
       Expand: "UserName",
-      Orderby: "ID",
-      Orderbydecorasc: false,
+      // Orderby: "ID",
+      // Orderbydecorasc: false,
     })
       .then((res) => {
         let arrDatas: IAnnouncementViews[] = [];
@@ -26,13 +26,24 @@ const AnnounceMents = (props) => {
             EMail: val.UserName?.EMail,
             JobTitle: val.UserName?.JobTitle,
             Title: val.UserName?.Title,
+            Sequence: val.Sequence ? val.Sequence : null,
             ID: val.ID,
             // Position: val.Position,
-            // imageUrl: val.ImageUrl,
+            image: val.Image ? JSON.parse(val.Image).serverRelativeUrl : "",
           });
         });
 
-        setData([...arrDatas]);
+        arrDatas.sort((a, b) => {
+          const sequenceComparison = a.Sequence - b.Sequence;
+
+          if (sequenceComparison === 0) {
+            return a.ID - b.ID;
+          }
+
+          return sequenceComparison;
+        });
+
+        setData([...arrDatas.slice(0, 6)]);
       })
       .catch((err) => {
         console.log(err);
@@ -135,7 +146,11 @@ const AnnounceMents = (props) => {
                   <img
                     width="100%"
                     height="100%"
-                    src={`/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`}
+                    src={
+                      val.image
+                        ? val.image
+                        : `/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`
+                    }
                     alt=""
                     // style={{ width: "100%", height: "100%" }}
                   />

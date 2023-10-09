@@ -3,6 +3,8 @@ export interface IAnnouncementViews {
   JobTitle: string;
   Title: string;
   ID: number;
+  Sequence: number;
+  image: string;
 }
 export interface INews {
   Id: number;

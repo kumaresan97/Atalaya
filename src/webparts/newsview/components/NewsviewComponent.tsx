@@ -148,11 +148,12 @@ const NewsviewComponent = (props) => {
   ) : (
     <div style={{ padding: 20 }}>
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        // style={{
+        //   display: "flex",
+        //   alignItems: "center",
+        //   justifyContent: "space-between",
+        // }}
+        className={styles.nwviewcontainer}
       >
         <Label
           //   style={{ margin: 0, color: "#A98044" }}
@@ -181,7 +182,10 @@ const NewsviewComponent = (props) => {
         >
           View all
         </Label> */}
-        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+        <div
+          // style={{ display: "flex", gap: "20px", alignItems: "center" }}
+          className={styles.nvdatewrapper}
+        >
           <Dropdown
             placeholder="Select an option"
             options={[
@@ -322,20 +326,28 @@ const NewsviewComponent = (props) => {
                   <p> {val.TagName}</p>
                 </p>
                 <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  // style={{
+                  //   display: "flex",
+                  //   justifyContent: "space-between",
+                  //   alignItems: "center",
+                  // }}
+                  className={styles.footwrapper}
                 >
-                  <p style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}>
+                  <p
+                    className={styles.paraDate}
+                    // style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}
+                  >
                     {moment(val.Created).format("DD/MM/YYYY")}
                   </p>
                   <div className={styles.newsCreator}>
                     <img
                       src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
                     />
-                    <p style={{ margin: "0 0 0 3px" }}>{val.DisplayName}</p>
+                    <p
+                    // style={{ margin: "0 0 0 3px" }}
+                    >
+                      {val.DisplayName}
+                    </p>
                   </div>
                 </div>
               </div>

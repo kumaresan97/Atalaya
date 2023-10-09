@@ -5,6 +5,12 @@
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   margin: 0;
+  cursor: default;
+}
+.headcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .newsSection {
   display: flex;
@@ -44,6 +50,16 @@
   }
   .newsFooter {
     display: block;
+    .imgcontainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .date {
+        margin: 0;
+        color: #d72f52;
+        font-size: 15px;
+      }
+    }
   }
   .newsCreator {
     display: flex;
@@ -52,6 +68,9 @@
       width: 20px;
       height: 20px;
       border-radius: 6px;
+    }
+    p {
+      margin: 0 0 0 3px;
     }
   }
 }

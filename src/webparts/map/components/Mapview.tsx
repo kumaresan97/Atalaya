@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import SPServices from "../../../Global/SPServices";
-import { Label, Spinner } from "@fluentui/react";
+import { Label, Spinner, TooltipHost } from "@fluentui/react";
 // import "../../../Global/Style.css";
 import styles from "./Map.module.scss";
 const Mapview = (props) => {
@@ -64,19 +64,21 @@ const Mapview = (props) => {
               // style={{ width: "100%", height: "100%" }}
               dangerouslySetInnerHTML={{ __html: val.Source }}
             />
-            <div
-              // style={{
-              //   padding: "10px 20px",
-              //   background: "#ffffff",
-              //   boxShadow:
-              //     "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
-              //   fontSize: "17px",
-              //   fontWeight: 400,
-              // }}
-              className={styles.iframtitle}
-            >
-              {val.Title}
-            </div>
+            <TooltipHost content={val.Title}>
+              <div
+                // style={{
+                //   padding: "10px 20px",
+                //   background: "#ffffff",
+                //   boxShadow:
+                //     "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+                //   fontSize: "17px",
+                //   fontWeight: 400,
+                // }}
+                className={styles.iframtitle}
+              >
+                {val.Title}
+              </div>
+            </TooltipHost>
           </div>
         ))
       ) : (

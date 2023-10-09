@@ -80,12 +80,16 @@ const MainComponent = (props) => {
                       alt="slide 1"
                     />
                   </div>
-                  <div className={styles.titlediv}>
-                    <p className={styles.title}>{arr.Title}</p>
-                    <TooltipHost content={arr.Description}>
-                      <p className={styles.description}>{arr.Description}</p>
-                    </TooltipHost>
-                  </div>
+                  {arr.Title || arr.Description ? (
+                    <div className={styles.titlediv}>
+                      <p className={styles.title}>{arr.Title}</p>
+                      <TooltipHost content={arr.Description}>
+                        <p className={styles.description}>{arr.Description}</p>
+                      </TooltipHost>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </CContainer>
             </CCarouselItem>

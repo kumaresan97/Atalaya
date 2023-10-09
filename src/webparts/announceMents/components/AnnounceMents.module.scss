@@ -1,6 +1,7 @@
 .AnnounceContainer {
   background-color: #ffffff;
   padding: 10px;
+  min-height: 427px;
   .titlecontainer {
     display: flex;
     justify-content: space-between;
@@ -23,6 +24,8 @@
         align-items: center;
         flex-direction: column;
         min-height: 150px;
+        padding: 0 5px;
+        cursor: default;
 
         .imgWraper {
           width: 50px;

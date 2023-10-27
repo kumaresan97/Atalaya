@@ -15,6 +15,7 @@ export interface INews {
   DisplayName: string;
   Created: any;
   TagName: string;
+  AttachmentFiles?: string;
 }
 export interface IImgcarosuel {
   Title: string;

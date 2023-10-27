@@ -54,7 +54,7 @@ const Imgcarosuel = (props) => {
   }, []);
   return (
     <div className="imgCarosuel">
-      <CCarousel controls indicators>
+      <CCarousel controls={datas.length > 1} indicators={datas.length > 1}>
         {datas.length > 0 &&
           datas.map((chunk: any, index) => (
             <CCarouselItem key={index}>

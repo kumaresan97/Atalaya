@@ -50,7 +50,15 @@ const MainComponent = (props) => {
   }, []);
   return (
     <div className="headcarosuel">
-      <CCarousel controls={datas.length > 1} indicators={datas.length > 1}>
+      <CCarousel
+        controls={datas.length > 1}
+        // wrap={false}
+        indicators={datas.length > 1}
+        // interval={datas.length >= 1 ? 100 : 200000000}
+        interval={datas.length >= 1 ? 3000 : 8.64e7}
+
+        // interval={datas.length <= 1 ? 8.64e7 : 3000}
+      >
         {datas.length > 0 ? (
           datas.map((arr: any) => (
             <CCarouselItem key={arr.id}>

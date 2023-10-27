@@ -5,6 +5,7 @@ import { escape } from "@microsoft/sp-lodash-subset";
 import { sp } from "@pnp/sp/presets/all";
 import MainComponent from "./MainComponent";
 // import CustomCarousel from "./Test";
+// import Swiperfn from "./Swiper";
 
 export default class Carosuel extends React.Component<ICarosuelProps, {}> {
   constructor(prop: ICarosuelProps) {
@@ -23,5 +24,6 @@ export default class Carosuel extends React.Component<ICarosuelProps, {}> {
     } = this.props;
 
     return <MainComponent context={this.props.context} />;
+    // return <Swiperfn context={this.props.context} />;
   }
 }

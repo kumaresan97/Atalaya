@@ -18,9 +18,9 @@ const NewsComponent = (props) => {
   const getData = () => {
     SPServices.SPReadItems({
       Listname: "Intranet Latest News",
-      Select: "*, Author/Title,Author/EMail",
+      Select: "*, Author/Title,Author/EMail,AttachmentFiles",
       Topcount: 4,
-      Expand: "Author",
+      Expand: "Author,AttachmentFiles",
       Orderby: "ID",
       Orderbydecorasc: false,
     })
@@ -37,6 +37,9 @@ const NewsComponent = (props) => {
             CreatedEmail: val.Author.EMail,
             DisplayName: val.Author.Title,
             Created: val.Created,
+            AttachmentFiles: val.AttachmentFiles
+              ? val.AttachmentFiles.map((val) => val.ServerRelativeUrl)
+              : "",
           });
         });
 
@@ -92,7 +95,14 @@ const NewsComponent = (props) => {
       </div>
       {news.length > 0 ? (
         news.map((val) => (
-          <div className={styles.newsSection}>
+          <div
+            className={styles.newsSection}
+            onClick={() => {
+              val.AttachmentFiles.length > 0
+                ? window.open(val.AttachmentFiles)
+                : [];
+            }}
+          >
             <div className={styles.newsImage}>
               <img src={val.imageUrl} alt="" />
             </div>
@@ -120,9 +130,11 @@ const NewsComponent = (props) => {
                     //  style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}
                     className={styles.date}
                   >
-                    {moment(val.Created).format("DD/MM/YYYY")}
+                    {moment(val.Created).format("MM/DD/YYYY")}
                   </p>
-                  <div className={styles.newsCreator}>
+
+                  {/* hide  created by*/}
+                  {/* <div className={styles.newsCreator}>
                     <img
                       src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
                     />
@@ -131,7 +143,7 @@ const NewsComponent = (props) => {
                     >
                       {val.DisplayName}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

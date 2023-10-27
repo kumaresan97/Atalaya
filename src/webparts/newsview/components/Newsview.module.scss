@@ -14,7 +14,7 @@
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   margin: 0;
-  cursor: default;
+  cursor: pointer;
 }
 .nwviewcontainer {
   display: flex;
@@ -32,6 +32,7 @@
   margin: 10px 0;
   padding: 10px 0;
   border-bottom: 1px solid #dedede;
+  cursor: pointer;
   .newsImage {
     width: 100px;
     height: 84px;

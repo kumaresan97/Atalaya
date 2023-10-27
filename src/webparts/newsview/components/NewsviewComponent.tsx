@@ -57,13 +57,15 @@ const NewsviewComponent = (props) => {
     //   .get()
     SPServices.SPReadItems({
       Listname: Config.ListNames.News,
-      Select: "*,Author/Title, Author/EMail",
+      Select: "*,Author/Title, Author/EMail,AttachmentFiles",
       Topcount: 5000,
-      Expand: "Author",
+      Expand: "Author,AttachmentFiles",
       Orderby: "ID",
       Orderbydecorasc: false,
     })
       .then((res) => {
+        console.log(res, "res");
+
         let arrDatas: INews[] = [];
         res.forEach((val: any) => {
           arrDatas.push({
@@ -75,6 +77,9 @@ const NewsviewComponent = (props) => {
             DisplayName: val.Author.Title,
             Created: val.Created,
             TagName: val.TagName,
+            AttachmentFiles: val.AttachmentFiles
+              ? val.AttachmentFiles.map((val) => val.ServerRelativeUrl)
+              : "",
           });
         });
         // console.log(res);
@@ -84,6 +89,8 @@ const NewsviewComponent = (props) => {
         //     moment(val.Created).format("YYYYMMDD") ==
         //     moment().format("YYYYMMDD")
         // );
+        console.log(arrDatas);
+
         setMasternews([...arrDatas]);
         setNews([...arrDatas]);
         setLoading(false);
@@ -235,7 +242,7 @@ const NewsviewComponent = (props) => {
               // getSensorFaliure(onedaydata);
             }}
             placeholder="Select date"
-            formatDate={(date) => moment(date).format("DD/MM/YYYY")}
+            formatDate={(date) => moment(date).format("MM/DD/YYYY")}
           />
         </div>
       </div>
@@ -299,7 +306,14 @@ const NewsviewComponent = (props) => {
           //     </div>
           //   </div>
           // </div>
-          <div className={styles.newsSection}>
+          <div
+            className={styles.newsSection}
+            onClick={() => {
+              val.AttachmentFiles.length > 0
+                ? window.open(val.AttachmentFiles)
+                : [];
+            }}
+          >
             <div className={styles.newsImage}>
               <img src={val.imageUrl} alt="" />
             </div>
@@ -337,9 +351,10 @@ const NewsviewComponent = (props) => {
                     className={styles.paraDate}
                     // style={{ margin: 0, color: "#D72F54", fontSize: "15px" }}
                   >
-                    {moment(val.Created).format("DD/MM/YYYY")}
+                    {moment(val.Created).format("MM/DD/YYYY")}
                   </p>
-                  <div className={styles.newsCreator}>
+                  {/* hide create by */}
+                  {/* <div className={styles.newsCreator}>
                     <img
                       src={`/_layouts/15/userphoto.aspx?size=S&accountname=${val.CreatedEmail}`}
                     />
@@ -348,7 +363,7 @@ const NewsviewComponent = (props) => {
                     >
                       {val.DisplayName}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -49,13 +49,15 @@ const Calendarview = (props) => {
   const getEvents = () => {
     SPServices.SPReadItems({
       Listname: "Intranet Calendar",
+      Select: "*, FieldValuesAsText/Event",
+      Expand: "FieldValuesAsText",
     })
       .then(async (res) => {
         let arrDatas = [];
         res.forEach((val: any) => {
           arrDatas.push({
             title: val.Title,
-            start: moment(val.Event).format("YYYY-MM-DD"),
+            start: moment(val.FieldValuesAsText.Event).format("YYYY-MM-DD"),
             color: val.Color,
           });
         });

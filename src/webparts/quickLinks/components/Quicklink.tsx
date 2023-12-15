@@ -15,20 +15,33 @@ const Quicklink = (props) => {
     SPServices.SPReadItems({
       Listname: "Intranet Quicklinks",
       Topcount: 12,
+      Select: "*, AttachmentFiles",
+      Expand: "AttachmentFiles",
     })
-      .then((res) => {
+      .then(async (res: any) => {
         let arrDatas: IQuickLink[] = [];
-        res.forEach((val: any) => {
-          arrDatas.push({
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
             Title: val.Title ? val.Title : "",
             Id: val.Id,
-
             Url: val.Url ? val.Url : "",
-            imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            // imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            Attach: arrGetAttach,
           });
         });
 
-        setDatas([...arrDatas]);
+        await setDatas([...arrDatas]);
       })
       .catch((err) => {
         console.log(err);
@@ -70,7 +83,11 @@ const Quicklink = (props) => {
               }}
             >
               <div className={styles.boximgdiv}>
-                <img src={val.imageUrl} alt="img" className={styles.img} />
+                <img
+                  src={val.Attach.length ? val.Attach[0].serverRelativeUrl : ""}
+                  alt="img"
+                  className={styles.img}
+                />
               </div>
 
               <TooltipHost content={val.Title}>

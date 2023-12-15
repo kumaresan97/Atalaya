@@ -15,34 +15,53 @@ import { IImgcarosuel } from "../../../Global/AtalayaInterface";
 import SPServices from "../../../Global/SPServices";
 import styles from "./ImageCarosuel.module.scss";
 import { TooltipHost } from "@fluentui/react";
+
 const Imgcarosuel = (props) => {
   const [datas, setDatas] = useState<IImgcarosuel[]>([]);
 
   const getDatas = () => {
     SPServices.SPReadItems({
       Listname: "Intranet 4 image carousel",
+      Select: "*, AttachmentFiles",
+      Expand: "AttachmentFiles",
     })
-      .then((res) => {
+      .then(async (res: any) => {
         let arrDatas: IImgcarosuel[] = [];
-        res.forEach((val: any) => {
-          arrDatas.push({
+        const chunkedDatas = [];
+
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
             Title: val.Title,
-            ImageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            // ImageUrl: JSON.parse(val.Image).serverRelativeUrl,
             Url: val.Links ? val.Links : "",
+            Attach: arrGetAttach,
           });
         });
-        const chunkedDatas = [];
+
         for (let i = 0; i < arrDatas.length; i += 4) {
           chunkedDatas.push(arrDatas.slice(i, i + 4));
-        }
 
-        // console.log(arrDatas, "arr");
-        setDatas([...chunkedDatas]);
+          if (arrDatas.length <= i + 4) {
+            setDatas([...chunkedDatas]);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const handleItemClick = (url) => {
     if (url) {
       window.open(url, "_blank");
@@ -74,7 +93,11 @@ const Imgcarosuel = (props) => {
                       onClick={() => handleItemClick(data.Url)}
                     >
                       <CImage
-                        src={data.ImageUrl}
+                        src={
+                          data.Attach.length
+                            ? data.Attach[0].serverRelativeUrl
+                            : ""
+                        }
                         // alt={data.Title}
                         style={{
                           objectFit: "cover",

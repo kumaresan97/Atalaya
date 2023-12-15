@@ -4,34 +4,44 @@ export interface IAnnouncementViews {
   Title: string;
   ID: number;
   Sequence: number;
-  image: string;
+  // image: string;
+  Attach: any;
 }
+
 export interface INews {
   Id: number;
-
   Description: string;
-  imageUrl: string;
+  Url?: string;
   CreatedEmail: string;
   DisplayName: string;
   Created: any;
   TagName: string;
-  AttachmentFiles?: string;
+  Attach: any;
 }
+
 export interface IImgcarosuel {
   Title: string;
-  ImageUrl: string;
+  // ImageUrl: string;
   Url: string;
+  Attach: any;
 }
+
 export interface ICarosuel {
-  imageUrl: string;
+  imageUrl?: string;
   Title: String;
   Description: string;
   Url: string;
   Active: boolean;
+  // image: string;
+  ID: number;
+  Sequence: number;
+  Attach: any;
 }
+
 export interface IQuickLink {
-  imageUrl: string;
+  // imageUrl: string;
   Title: String;
   Id: number;
   Url: string;
+  Attach: any;
 }

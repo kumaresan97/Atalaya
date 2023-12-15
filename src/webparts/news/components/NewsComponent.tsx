@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-
 import { Icon } from "@fluentui/react/lib/Icon";
 import { sp } from "@pnp/sp/presets/all";
 import * as moment from "moment";
@@ -10,6 +9,7 @@ import styles from "./News.module.scss";
 import { FontWeights } from "@fluentui/react";
 import SPServices from "../../../Global/SPServices";
 import { INews } from "../../../Global/AtalayaInterface";
+
 const Tagicon = require("../../../Global/Images/TagIcon.png");
 
 const NewsComponent = (props) => {
@@ -18,44 +18,56 @@ const NewsComponent = (props) => {
   const getData = () => {
     SPServices.SPReadItems({
       Listname: "Intranet Latest News",
-      Select: "*, Author/Title,Author/EMail,AttachmentFiles",
+      Select: "*, Author/Title, Author/EMail, AttachmentFiles",
       Topcount: 4,
-      Expand: "Author,AttachmentFiles",
+      Expand: "Author, AttachmentFiles",
       Orderby: "ID",
       Orderbydecorasc: false,
     })
 
-      .then((res: any) => {
+      .then(async (res: any) => {
         let arrDatas: INews[] = [];
-        res.forEach((val) => {
-          arrDatas.push({
-            Id: val.Id,
 
-            Description: val.Description,
-            TagName: val.TagName,
-            imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
+            Id: val.Id,
+            Description: val?.Description,
+            TagName: val?.TagName,
+            Url: val?.Url,
             CreatedEmail: val.Author.EMail,
             DisplayName: val.Author.Title,
             Created: val.Created,
-            AttachmentFiles: val.AttachmentFiles
-              ? val.AttachmentFiles.map((val) => val.ServerRelativeUrl)
-              : "",
+            Attach: arrGetAttach,
           });
         });
 
-        setNews([...arrDatas]);
+        await setNews([...arrDatas]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   const NavigateSitePage = () => {
     const nextPageUrl = `${props.context.pageContext.web.absoluteUrl}/SitePages/News.aspx`;
     window.open(nextPageUrl, "_blank");
   };
+
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <div>
       <div
@@ -98,14 +110,16 @@ const NewsComponent = (props) => {
           <div
             className={styles.newsSection}
             onClick={() => {
-              val.AttachmentFiles.length > 0
-                ? window.open(val.AttachmentFiles)
-                : [];
+              val.Url ? window.open(val.Url, "_blank") : "";
             }}
           >
             <div className={styles.newsImage}>
-              <img src={val.imageUrl} alt="" />
+              <img
+                src={val.Attach.length ? val.Attach[0].serverRelativeUrl : ""}
+                alt=""
+              />
             </div>
+
             <div className={styles.newsContent}>
               <TooltipHost content={val.Description}>
                 <p style={{ margin: 0 }} className={styles.paratext}>

@@ -17,17 +17,22 @@ import {
   TooltipHost,
 } from "@fluentui/react";
 import { Placeholder } from "@pnp/spfx-controls-react";
+
 let masterData = [];
+
 interface IFilterKeys {
   Date: string;
   Name: string;
 }
+
 let FilterKeys: IFilterKeys = {
   // Date: moment().format(),
   Date: null,
   Name: "All",
 };
+
 const Tagicon = require("../../../Global/Images/TagIcon.png");
+
 const NewsviewComponent = (props) => {
   const [masternews, setMasternews] = useState([]);
   const [news, setNews] = useState<INews[]>([]);
@@ -57,31 +62,39 @@ const NewsviewComponent = (props) => {
     //   .get()
     SPServices.SPReadItems({
       Listname: Config.ListNames.News,
-      Select: "*,Author/Title, Author/EMail,AttachmentFiles",
+      Select: "*,Author/Title, Author/EMail, AttachmentFiles",
       Topcount: 5000,
-      Expand: "Author,AttachmentFiles",
+      Expand: "Author, AttachmentFiles",
       Orderby: "ID",
       Orderbydecorasc: false,
     })
-      .then((res) => {
-        console.log(res, "res");
-
+      .then(async (res: any) => {
         let arrDatas: INews[] = [];
-        res.forEach((val: any) => {
-          arrDatas.push({
-            Id: val.Id,
 
-            Description: val.Description,
-            imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
+            Id: val.Id,
+            Description: val?.Description,
+            TagName: val?.TagName,
+            Url: val?.Url,
             CreatedEmail: val.Author.EMail,
             DisplayName: val.Author.Title,
             Created: val.Created,
-            TagName: val.TagName,
-            AttachmentFiles: val.AttachmentFiles
-              ? val.AttachmentFiles.map((val) => val.ServerRelativeUrl)
-              : "",
+            Attach: arrGetAttach,
           });
         });
+
         // console.log(res);
         // masterData = arrDatas;
         // let filterbyDate = arrDatas.filter(
@@ -89,11 +102,10 @@ const NewsviewComponent = (props) => {
         //     moment(val.Created).format("YYYYMMDD") ==
         //     moment().format("YYYYMMDD")
         // );
-        console.log(arrDatas);
 
-        setMasternews([...arrDatas]);
-        setNews([...arrDatas]);
-        setLoading(false);
+        await setMasternews([...arrDatas]);
+        await setNews([...arrDatas]);
+        await setLoading(false);
         // Filtervalues(arrDatas, null, selectedValue.datevalue);
       })
       .catch((err) => {
@@ -309,13 +321,14 @@ const NewsviewComponent = (props) => {
           <div
             className={styles.newsSection}
             onClick={() => {
-              val.AttachmentFiles.length > 0
-                ? window.open(val.AttachmentFiles)
-                : [];
+              val.Url ? window.open(val.Url, "_blank") : "";
             }}
           >
             <div className={styles.newsImage}>
-              <img src={val.imageUrl} alt="" />
+              <img
+                src={val.Attach.length ? val.Attach[0].serverRelativeUrl : ""}
+                alt=""
+              />
             </div>
             <div className={styles.newsContent}>
               <TooltipHost content={val.Description}>

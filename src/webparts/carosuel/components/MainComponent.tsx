@@ -20,26 +20,63 @@ const MainComponent = (props) => {
   const [datas, setDatas] = useState<ICarosuel[]>([]);
 
   const getDatas = () => {
+    // let siteName = props.context.pageContext.web.title;
+    // let listID =
+    //   siteName.toLowerCase() == "watchtower"
+    //     ? "b4dddb42-af84-42cb-8d7e-c10121d3a894"
+    //     : "4528f3e3-62ea-43e6-92ce-afd8aa2aec97";
+
     SPServices.SPReadItems({
       Listname: "Intranet Carousel at the top",
+      Select: "*, AttachmentFiles",
+      Expand: "AttachmentFiles",
     })
-      .then((res) => {
+      .then(async (res: any) => {
         let arrDatas: ICarosuel[] = [];
         let slider = [];
-        res.forEach((val: any) => {
-          arrDatas.push({
+
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
+            ID: val.ID,
             Title: val.Title ? val.Title : "",
             Description: val.Description ? val.Description : "",
             Url: val.Url ? val.Url : "",
-            imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            // imageUrl: JSON.parse(val.Image).serverRelativeUrl,
+            // imageUrl: `/sites/${siteName}/SiteAssets/Lists/${listID}/${
+            //   JSON.parse(val.Image).fileName
+            // }`,
+            Sequence: val.Sequence ? val.Sequence : null,
             Active: val.Active,
+            Attach: arrGetAttach,
           });
         });
+
+        await arrDatas.sort((a, b) => {
+          const sequenceComparison = a.Sequence - b.Sequence;
+
+          if (sequenceComparison === 0) {
+            return a.ID - b.ID;
+          }
+
+          return sequenceComparison;
+        });
+
         const ActiveData: ICarosuel[] = arrDatas.filter(
           (item) => item.Active == true
         );
 
-        setDatas([...ActiveData]);
+        await setDatas([...ActiveData]);
       })
       .catch((err) => {
         console.log(err);
@@ -84,10 +121,13 @@ const MainComponent = (props) => {
                   <div className={styles.innerdivimage}>
                     <CImage
                       className={styles.img}
-                      src={arr.imageUrl ? arr.imageUrl : ""}
+                      src={
+                        arr.Attach.length ? arr.Attach[0].serverRelativeUrl : ""
+                      }
                       alt="slide 1"
                     />
                   </div>
+
                   {arr.Title || arr.Description ? (
                     <div className={styles.titlediv}>
                       <p className={styles.title}>{arr.Title}</p>

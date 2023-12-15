@@ -34,28 +34,41 @@ const Announcementviews = (props) => {
     //   .get()
     SPServices.SPReadItems({
       Listname: Config.ListNames.Announcement,
-      Select: "*,UserName/Id,UserName/Title,UserName/EMail,UserName/JobTitle",
+      Select:
+        "*, UserName/Id, UserName/Title, UserName/EMail, UserName/JobTitle, AttachmentFiles",
       Topcount: 5000,
-      Expand: "UserName",
+      Expand: "UserName, AttachmentFiles",
       Orderby: "ID",
       Orderbydecorasc: false,
     })
-      .then((res) => {
+      .then(async (res: any) => {
         let arrDatas: IAnnouncementViews[] = [];
-        res.forEach((val: any) => {
-          arrDatas.push({
+        await res.forEach(async (val: any) => {
+          let arrGetAttach = [];
+          await val.AttachmentFiles.forEach(async (val: any) => {
+            arrGetAttach.push({
+              fileName: val.FileName,
+              content: null,
+              isNew: false,
+              isDelete: false,
+              serverRelativeUrl: val.ServerRelativeUrl,
+            });
+          });
+
+          await arrDatas.push({
             EMail: val.UserName?.EMail,
             JobTitle: val.UserName?.JobTitle,
             Title: val.UserName?.Title,
             Sequence: val.Sequence ? val.Sequence : null,
-            image: val.Image ? JSON.parse(val.Image).serverRelativeUrl : "",
-
+            // image: val.Image ? JSON.parse(val.Image).serverRelativeUrl : "",
             // Position: val.Position,
             // imageUrl: val.ImageUrl,
             ID: val.ID ? val.ID : null,
+            Attach: arrGetAttach,
           });
         });
-        arrDatas.sort((a, b) => {
+
+        await arrDatas.sort((a, b) => {
           const sequenceComparison = a.Sequence - b.Sequence;
 
           if (sequenceComparison === 0) {
@@ -64,8 +77,9 @@ const Announcementviews = (props) => {
 
           return sequenceComparison;
         });
-        setMasterData([...arrDatas]);
-        setData([...arrDatas]);
+
+        await setMasterData([...arrDatas]);
+        await setData([...arrDatas]);
       })
       .catch((err) => {
         console.log(err);
@@ -170,8 +184,8 @@ const Announcementviews = (props) => {
                 >
                   <img
                     src={
-                      val.image
-                        ? val.image
+                      val.Attach.length
+                        ? val.Attach[0].serverRelativeUrl
                         : `/_layouts/15/userphoto.aspx?size=S&username=${val.EMail}`
                     }
                     alt=""
